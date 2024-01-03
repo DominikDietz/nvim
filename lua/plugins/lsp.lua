@@ -87,6 +87,15 @@ return {
               },
             },
           })
+
+          require("lspconfig").emmet_language_server.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            filetypes = { "html", "javascript", "javascriptreact", "typescriptreact", "css", "sass", "scss" },
+            init_options = {
+              showSuggestionsAsSnippets = false,
+            },
+          })
         end,
       })
     end,
