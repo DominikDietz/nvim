@@ -3,14 +3,14 @@ return {
   main = "ibl",
   opts = {},
   config = function()
-    require("ibl").setup({
-      indent = {
-        char = "▏",
-      },
-      scope = {
-        show_start = false,
-        char = "▏",
-      },
-    })
+    -- require("ibl").setup({
+    --   indent = {
+    --     char = "▏",
+    --   },
+    --   scope = {
+    --     show_start = false,
+    --     char = "▏",
+    --   },
+    -- })
   end,
 }
