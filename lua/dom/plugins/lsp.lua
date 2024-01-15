@@ -24,7 +24,7 @@ end
 
 local servers = {
   tsserver = {},
-    lua_ls = {
+  lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
@@ -68,16 +68,14 @@ return {
   {
     "nvimtools/none-ls.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "mason.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local null_ls = require("null-ls")
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
       null_ls.setup({
         sources = {
-          null_ls.builtins.formatting.stylua,
           null_ls.builtins.formatting.prettierd,
-          null_ls.builtins.code_actions.eslint_d,
         },
         on_attach = function(client, bufnr)
           if client.name == "null-ls" and client.supports_method("textDocument/formatting") then
