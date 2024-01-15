@@ -1,12 +1,3 @@
-local organize_imports = function()
-  local params = {
-    command = "_typescript.organizeImports",
-    arguments = { vim.api.nvim_buf_get_name(0) },
-    title = "",
-  }
-  vim.lsp.buf.execute_command(params)
-end
-
 local on_attach = function(client, bufnr)
   local key_opts = { buffer = bufnr, remap = false }
 
@@ -27,19 +18,13 @@ local on_attach = function(client, bufnr)
   end, {})
 
   if client.name == "tsserver" and client.supports_method("textDocument/formatting") then
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      command = "OrganizeImports",
-    })
+    client.resolved_capabilities.document_formatting = false
   end
 end
 
 local servers = {
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
   tsserver = {},
-  lua_ls = {
+    lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
@@ -75,26 +60,6 @@ return {
             on_attach = on_attach,
             settings = servers[server_name],
             filetypes = (servers[server_name] or {}).filetypes,
-          })
-
-          require("lspconfig").tsserver.setup({
-            on_attach = on_attach,
-            capabilities = capabilities,
-            commands = {
-              OrganizeImports = {
-                organize_imports,
-                description = "Organize Imports",
-              },
-            },
-          })
-
-          require("lspconfig").emmet_language_server.setup({
-            on_attach = on_attach,
-            capabilities = capabilities,
-            filetypes = { "html", "javascript", "javascriptreact", "typescriptreact", "css", "sass", "scss" },
-            init_options = {
-              showSuggestionsAsSnippets = false,
-            },
           })
         end,
       })
