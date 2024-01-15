@@ -35,7 +35,7 @@ local on_attach = function(client, bufnr)
 end
 
 local servers = {
-  -- gopls = {},
+-- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
   tsserver = {},
@@ -101,7 +101,7 @@ return {
     end,
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = { "mason.nvim" },
     config = function()
@@ -112,7 +112,7 @@ return {
         sources = {
           null_ls.builtins.formatting.stylua,
           null_ls.builtins.formatting.prettierd,
-          null_ls.builtins.formatting.eslint_d,
+          null_ls.builtins.code_actions.eslint_d,
         },
         on_attach = function(client, bufnr)
           if client.name == "null-ls" and client.supports_method("textDocument/formatting") then
