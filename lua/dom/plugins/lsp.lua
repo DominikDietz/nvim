@@ -1,4 +1,4 @@
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
   local key_opts = { buffer = bufnr, remap = false }
 
   vim.keymap.set("n", "K", vim.lsp.buf.hover, key_opts)
@@ -12,14 +12,6 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, key_opts)
   vim.keymap.set("n", "<leader>fs", require("telescope.builtin").lsp_document_symbols, key_opts)
   vim.keymap.set("n", "<leader>fS", require("telescope.builtin").lsp_dynamic_workspace_symbols, key_opts)
-
-  vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-    vim.lsp.buf.format()
-  end, {})
-
-  if client.name == "tsserver" and client.supports_method("textDocument/formatting") then
-    client.resolved_capabilities.document_formatting = false
-  end
 end
 
 local servers = {
@@ -61,36 +53,6 @@ return {
             settings = servers[server_name],
             filetypes = (servers[server_name] or {}).filetypes,
           })
-        end,
-      })
-    end,
-  },
-  {
-    "nvimtools/none-ls.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local null_ls = require("null-ls")
-      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.prettierd,
-          null_ls.builtins.diagnostics.eslint_d,
-          null_ls.builtins.code_actions.eslint_d,
-          null_ls.builtins.formatting.eslint_d,
-        },
-        on_attach = function(client, bufnr)
-          if client.name == "null-ls" and client.supports_method("textDocument/formatting") then
-            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = augroup,
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format({ bufnr = bufnr })
-              end,
-            })
-          end
         end,
       })
     end,
