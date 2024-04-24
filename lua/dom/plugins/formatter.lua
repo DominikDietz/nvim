@@ -1,8 +1,15 @@
+local format_options = {
+  lsp_fallback = true,
+  async = true,
+  timeout_ms = 500,
+}
+
 return {
   "stevearc/conform.nvim",
-  opts = {},
+  event = { "BufReadPre", "BufNewFile" },
   config = function()
-    require("conform").setup({
+    local conform = require("conform")
+    conform.setup({
       formatters_by_ft = {
         lua = { "stylua" },
         javascript = { { "prettierd", "prettier" } },
@@ -10,18 +17,11 @@ return {
         typescriptreact = { { "prettierd", "prettier" } },
         javascriptreact = { { "prettierd", "prettier" } },
       },
-      format_on_save = {
-        lsp_fallback = true,
-        async = true,
-        timeout_ms = 500
-      }
+      format_on_save = format_options,
     })
 
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*",
-      callback = function(args)
-        require("conform").format({ bufnr = args.buf })
-      end,
-    })
+    vim.keymap.set({ "n", "v" }, "<leader>mp", function()
+      conform.format(format_options)
+    end)
   end,
 }
