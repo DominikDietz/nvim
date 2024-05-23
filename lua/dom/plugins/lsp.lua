@@ -1,20 +1,24 @@
 local on_attach = function(_, bufnr)
   local key_opts = { buffer = bufnr, remap = false }
+  local builtin = require("telescope.builtin")
 
   vim.keymap.set("n", "K", vim.lsp.buf.hover, key_opts)
   -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, key_opts)
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, key_opts)
-  vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions, key_opts)
-  vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, key_opts)
-  vim.keymap.set("n", "gI", require("telescope.builtin").lsp_implementations, key_opts)
-  vim.keymap.set("n", "gt", require("telescope.builtin").lsp_type_definitions, key_opts)
+  vim.keymap.set("n", "gd", builtin.lsp_definitions, key_opts)
+  vim.keymap.set("n", "gr", function()
+    builtin.lsp_references({ path_display = { "smart" } })
+  end, key_opts)
+  vim.keymap.set("n", "gI", builtin.lsp_implementations, key_opts)
+  vim.keymap.set("n", "gt", builtin.lsp_type_definitions, key_opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, key_opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, key_opts)
-  vim.keymap.set("n", "<leader>fs", require("telescope.builtin").lsp_document_symbols, key_opts)
-  vim.keymap.set("n", "<leader>fS", require("telescope.builtin").lsp_dynamic_workspace_symbols, key_opts)
+  vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, key_opts)
+  vim.keymap.set("n", "<leader>fS", builtin.lsp_dynamic_workspace_symbols, key_opts)
 end
 
 local servers = {
+  gopls = {},
   tsserver = {},
   lua_ls = {
     Lua = {
