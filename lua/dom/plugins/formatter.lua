@@ -16,6 +16,7 @@ return {
         typescript = { { "prettierd", "prettier" } },
         typescriptreact = { { "prettierd", "prettier" } },
         javascriptreact = { { "prettierd", "prettier" } },
+        go = { "gofmt", "goimport" },
       },
       format_on_save = format_options,
     })
