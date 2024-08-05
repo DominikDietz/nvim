@@ -5,8 +5,6 @@ return {
   },
   build = ":TSUpdate",
   config = function()
-    local configs = require("nvim-treesitter.install")
-    configs.compilers = { "clang" }
 
     -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
     vim.defer_fn(function()
@@ -16,11 +14,8 @@ return {
         ignore_install = {},
 
         ensure_installed = {
-          "c",
-          "cpp",
           "go",
           "lua",
-          "python",
           "rust",
           "tsx",
           "javascript",
