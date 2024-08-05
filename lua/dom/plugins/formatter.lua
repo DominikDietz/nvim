@@ -1,6 +1,5 @@
 local format_options = {
-  lsp_fallback = true,
-  async = true,
+  lsp_format = "fallback",
   timeout_ms = 500,
 }
 
@@ -12,11 +11,11 @@ return {
     conform.setup({
       formatters_by_ft = {
         lua = { "stylua" },
-        javascript = { { "prettierd", "prettier" } },
-        typescript = { { "prettierd", "prettier" } },
-        typescriptreact = { { "prettierd", "prettier" } },
-        javascriptreact = { { "prettierd", "prettier" } },
-        go = { "gofmt", "goimport" },
+        javascript = { "prettierd" },
+        typescript = { "prettierd" },
+        typescriptreact = { "prettierd" },
+        javascriptreact = { "prettierd" },
+        go = { "goimport", "gofmt" },
       },
       format_on_save = format_options,
     })
