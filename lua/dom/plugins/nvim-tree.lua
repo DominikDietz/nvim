@@ -19,10 +19,10 @@ return {
     },
     view = {
       cursorline = true,
-      -- width = {
-      --   min = 30,
-      --   padding = 3
-      -- }
+      width = {
+        min = 30,
+        padding = 3
+      }
     },
     on_attach = function(bufnr)
       local api = require("nvim-tree.api")
